@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
     // Generate a token that expires after 24 hours
     const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-    res.status(200).json({ message: 'User logged in successfully', token });
+    res.status(200).json({ message: 'User logged in successfully', token,username: user.username, id: user._id  });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
