@@ -2,18 +2,32 @@
 const { getDb } = require('../../db');
 const Post = require('../models/post');
 const mongodb = require('mongodb');
+const cloudinary = require('cloudinary').v2;
+
+
 
 
 exports.create = async (req, res) => {
   try {
+    const result = await cloudinary.uploader.upload(req.file.path);
+
     const db = getDb();
     const postsCollection = db.collection('posts');
 
-    const post = new Post(req.body);
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      author: req.body.author,
+      image: result.secure_url, // this is the link to the image stored in Cloudinary
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    });
+
     await postsCollection.insertOne(post);
     res.status(201).send(post);
   } catch (error) {
     res.status(400).send(error);
+    console.log(error);
   }
 };
 
