@@ -10,16 +10,20 @@ const cloudinary = require('cloudinary').v2;
 
 exports.create = async (req, res) => {
   try {
-    const result = await cloudinary.uploader.upload(req.file.path);
-
     const db = getDb();
     const postsCollection = db.collection('posts');
+
+    const mainPhotoResult = await cloudinary.uploader.upload(req.files.mainPhoto[0].path);
+    const otherPhotoResults = await Promise.all(req.files.otherPhotos.map(file => cloudinary.uploader.upload(file.path)));
 
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
       author: req.body.author,
-      image: result.secure_url, // this is the link to the image stored in Cloudinary
+      image: mainPhotoResult.secure_url, // this is the link to the main photo stored in Cloudinary
+      imageDescription: req.body.imageDescription, // image description
+      mainPhoto: mainPhotoResult.secure_url, // main photo of the story
+      otherPhotos: otherPhotoResults.map(result => result.secure_url), // other photos of the story
       createdAt: Date.now(),
       updatedAt: Date.now()
     });
@@ -31,7 +35,6 @@ exports.create = async (req, res) => {
     console.log(error);
   }
 };
-
 
 
 exports.update = async (req, res) => {
