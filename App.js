@@ -9,8 +9,7 @@ const app = express();
 
 run();
 
-// Specify the domains that can access your API
-// Specify the domains that can access your API
+
 const whitelist = ['http://localhost:8080', 'http://localhost:5000'];
 const corsOptions = {
   origin: function (origin, callback) {
