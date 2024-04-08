@@ -21,3 +21,9 @@ PostSchema.pre('save', function (next) {
 });
 
 module.exports = mongoose.model('Post', PostSchema);
+
+/*  
+   
+   */
+
+   /* image /linnk */
