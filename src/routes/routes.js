@@ -4,6 +4,7 @@ const authController = require('../controllers/authController');
 const postController = require('../controllers/postController');
 const teamController = require('../controllers/teamController');
 const galleryController = require('../controllers/galleryController');
+const successController = require('../controllers/successController');
 const upload = require('../middlewires/upload');
 
 const router = express.Router();
@@ -27,6 +28,9 @@ router.delete('/api/v1/teams/:id', teamController.delete);
 router.post('/api/v1/galleries', upload.single('images'), galleryController.create);
 router.get('/api/v1/galleries', galleryController.getAll);
 router.get('/api/v1/galleries/:id', galleryController.getOne);
+
+router.post('/api/v1/success-stories', upload.single('image'), SuccessStoryController.create);
+router.get('/api/v1/success-stories', successStoryController.getAll);
 
 
 module.exports = router;
