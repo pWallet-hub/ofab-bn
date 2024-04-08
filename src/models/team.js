@@ -8,4 +8,11 @@ const TeamSchema = new mongoose.Schema({
   description: { type: String }
 });
 
+TeamSchema.pre('save', function (next) {
+  if (this.isModified('title') || this.isModified('content')) {
+    this.updatedAt = Date.now();
+  }
+  next();
+});
+
 module.exports = mongoose.model('Team', TeamSchema);
