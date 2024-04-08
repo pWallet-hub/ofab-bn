@@ -29,8 +29,8 @@ router.post('/api/v1/galleries', upload.single('images'), galleryController.crea
 router.get('/api/v1/galleries', galleryController.getAll);
 router.get('/api/v1/galleries/:id', galleryController.getOne);
 
-router.post('/api/v1/success-stories', upload.single('image'), SuccessStoryController.create);
-router.get('/api/v1/success-stories', successStoryController.getAll);
+router.post('/api/v1/success-stories', upload.single('image'), successController.create);
+router.get('/api/v1/success-stories', successController.getAll);
 
 
 module.exports = router;
