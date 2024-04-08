@@ -102,7 +102,6 @@ exports.getAll = async (req, res) => {
       { $unwind: '$author' },
       { $project: { 'author.password': 0 } }
     ]).toArray();
-
     res.send(posts);
   } catch (error) {
     res.status(500).send(error);
