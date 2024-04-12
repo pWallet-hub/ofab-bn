@@ -31,8 +31,9 @@ exports.create = async (req, res) => {
     await postsCollection.insertOne(post);
     res.status(201).send(post);
   } catch (error) {
-    res.status(400).send(error);
-    console.log(error);
+    console.log('Error message:', error.message);
+    console.log('Error stack:', error.stack);
+    res.status(500).send({ error: 'An error occurred while creating the post.' });
   }
 };
 
