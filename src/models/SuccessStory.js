@@ -9,4 +9,11 @@ const SuccessStorySchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
+SuccessStorySchema.pre('save', function (next) {
+  if (this.isModified('title') || this.isModified('content')) {
+    this.updatedAt = Date.now();
+  }
+  next();
+})
+
 module.exports = mongoose.model('SuccessStory', SuccessStorySchema);
