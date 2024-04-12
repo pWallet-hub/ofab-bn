@@ -11,12 +11,12 @@ exports.create = async (req, res) => {
     const db = getDb();
     const successStoriesCollection = db.collection('successStories');
 
-    const image = await cloudinary.uploader.upload(req.file.path);
+    const imageUrlResult = await cloudinary.uploader.upload(req.file.path);
 
     const successStory = new SuccessStory({
       name: req.body.name,
       story: req.body.story,
-      imageUrl: image.secure_url, // this is the link to the image stored in Cloudinary
+      imageUrl: imageUrlResult.secure_url,
       createdAt: Date.now(),
       updatedAt: Date.now()
     });
