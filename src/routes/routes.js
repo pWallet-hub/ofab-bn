@@ -28,6 +28,7 @@ router.delete('/api/v1/teams/:id', teamController.delete);
 router.post('/api/v1/galleries', upload.single('images'), galleryController.create);
 router.get('/api/v1/galleries', galleryController.getAll);
 router.get('/api/v1/galleries/:id', galleryController.getOne);
+router.delete('/api/v1/galleries/:id', galleryController.delete);
 
 router.post('/api/v1/success-stories', upload.single('image'), successController.create);
 router.get('/api/v1/success-stories', successController.getAll);
