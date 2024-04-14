@@ -1,5 +1,6 @@
 // controllers/teamController.js
-const { getDb } = require('../../db');  
+const { getDb } = require('../../db');
+const mongodb = require('mongodb');  
 const team = require('../models/team');
 const cloudinary = require('cloudinary').v2;
 
@@ -31,7 +32,7 @@ exports.getAll = async (req, res) => {
   try {
     const db = getDb();
     const teamsCollection = db.collection('teams');
-
+    
     const teams = await teamsCollection.find().toArray();
     res.status(200).send(teams);
   } catch (error) {
@@ -70,17 +71,23 @@ exports.update = async (req, res) => {
   }
 };
 
+
 exports.delete = async (req, res) => {
   try {
     const db = getDb();
     const teamsCollection = db.collection('teams');
 
+    if (!mongodb.ObjectId.isValid(req.params.id)) {
+      return res.status(400).send({ message: 'Invalid id' });
+    }
+
     const result = await teamsCollection.deleteOne({ _id: new mongodb.ObjectId(req.params.id) });
     if (result.deletedCount === 0) {
-      return res.status(404).send();
+      return res.status(404).send({ message: 'No team member found with this id' });
     }
     res.status(200).send({ message: 'Team member deleted successfully' });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ message: 'Internal server error', error });
+    console.log(error);
   }
 };

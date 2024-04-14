@@ -59,16 +59,20 @@ exports.delete = async (req, res) => {
     const db = getDb();
     const galleriesCollection = db.collection('galleries');
 
+    if (!mongodb.ObjectId.isValid(req.params.id)) {
+      return res.status(400).send({ error: 'Invalid id.' });
+    }
+
     const result = await galleriesCollection.deleteOne({ _id: new mongodb.ObjectId(req.params.id) });
 
     if (result.deletedCount === 0) {
       return res.status(404).send();
     }
 
-    res.status(200).send();
+    res.status(200).send(result);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 };
-
 
