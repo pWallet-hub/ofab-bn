@@ -36,7 +36,7 @@ exports.getAll = async (req, res) => {
     const galleries = await galleriesCollection.find().toArray();
     const allImages = galleries.flatMap(gallery => gallery.images);
 
-    res.status(200).send(allImages);
+    res.status(200).send(galleries);
   } catch (error) {
     res.status(500).send(error);
   }
